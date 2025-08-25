@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOG IN</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="/css/darkmode.css">
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon_io/favicon.ico">
+</head>
+
+<body>
+
+    <%- include('../layout/header')%>
+
+<!-- Body start here  -->
+    <form class="authenticate-form" action="/login" method="post" style="height: 500px;">
+        <h1 class="">Log In </h1>
+        
+        <input id="useremail" name="email" type="text" placeholder="abc@gmail.com"/>
+        <input id="userpwd"  name="password" type="password" placeholder="Your password"/>
+        <input class="sub" type="submit" value="Log in"/>
+        <!-- 
+        <a href='/login/google'><input class="google" type="button" value="Google+"></a> 
+        <a href='/login/facebook'><input class="facebook" type="button" value="Facebook"></a>
+        -->
+        <li><a href="#"><p>Need help with password?</p></a></li>
+        <li><a href="/register"><p>Sign Up</p></a></li>
+    
+    </form>
+    <%- include('../layout/footer')%>
+
+<script src="./js/event.js"></script>
+
+</body>
+</html>

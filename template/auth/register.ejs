@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link STYLE CSS -->
+    <link rel="stylesheet" href="./css/index.css" type="text/css">
+    <title>PROJECT 1</title>
+    </head>
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon_io/favicon.ico">
+    <link rel="stylesheet" href="/css/darkmode.css">
+
+<body>
+
+<%- include('../layout/header')%>
+<!-- Body start here  -->
+    
+    <form class="authenticate-form" action="/register" method="post" style="height: 600px;">
+        <h1 class="">Register</h1>
+        
+        <input name="email" type="text" placeholder="abc@gmail.com" required/>
+        <input name="username" type="text" placeholder="New User Name"/>
+        <input name="password" type="password" placeholder="New Password"/>
+        <input name="userpwd" type="password" placeholder="Re-enter password"/>
+        <input class="sub" type="submit" value="Sign Up"/>
+        <!-- 
+        <a href='/login/google'><input class="google" type="button" value="Google+"></a> 
+        <a href='/login/facebook'><input class="facebook" type="button" value="Facebook"></a>
+        -->
+        <li><a href="#"><p>Need help with password?</p></a></li>
+        <li><a href="/login"><p>Already Have An Account</p></a></li>
+
+    </form>
+
+    <%- include('../layout/footer')%>
+
+
+    
+<!-- javascript -->
+<script src="./js/event.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    
+        //check passworđ before submit!
+        document.querySelector('.authenticate-form').addEventListener('submit', function(event) {
+            const password = document.getElementById('pass').value;
+            const confirmPassword = document.getElementById('re-pass').value;
+            if (password !== confirmPassword){
+                event.preventDefault();
+            };
+        });
+
+    });
+</script>
+
+</body>
+<footer>
+
+</footer>
+
+</html>
+

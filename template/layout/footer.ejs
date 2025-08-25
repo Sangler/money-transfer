@@ -1,0 +1,17 @@
+<!-- footer.ejs -->
+  <% 
+    const companyName='companyName';
+   %>
+<footer>
+  <div class="footer-content">
+    
+    <p>&copy; <%= new Date().getFullYear() %> <%= companyName || 'MyExchange' %>. All rights reserved.</p>
+    <p><a href="/terms">Terms of Service</a> | <a href="/privacy">Privacy Policy</a></p>
+  </div>
+  <!-- Back-to-Top button (hidden by default) -->
+  <button id="backToTop">↑ Back to Top</button>
+</footer>
+
+<!-- Link to footer CSS and JS (adjust paths as needed) -->
+<link rel="stylesheet" href="/css/layout.css">
+<script src="/js/footer.js" defer></script>

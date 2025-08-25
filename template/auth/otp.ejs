@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/otp.css" type="text/css">
+    <link rel="stylesheet" href="../css/index.css" type="text/css">
+    <link rel="icon" type="image/x-icon" href="/imgs/favicon_io/favicon.ico">
+    <link rel="stylesheet" href="/css/darkmode.css">
+
+    <title>Email OTP Verifying Page</title>
+</head>
+<body>
+  <%- include('../layout/header')%>
+  <h2>Email OTP</h2>
+    <div class="email-otp-container">
+        <!-- Six input fields for OTP digits -->
+        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1">
+        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
+        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
+        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
+        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
+        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
+    </div>
+
+  <form action="/register/otp" method="post">
+    <div class="btn-container">
+      <input type="text" class="otp-code-holder" name="otp">
+      <!-- Verify OTP Button -->
+      <button type="submit" name="action" value="verify" id="verifyEmailOTP">VERIFY EMAIL</button>
+      <!-- Resend OTP Button -->
+      <button type="submit" name="action" value="resend">Resend</button>
+    </div>
+  </form>
+  <br>
+  <%- include('../layout/footer')%>
+
+  <script src="/js/index.js" ></script>
+  <script src="./js/event.js"></script>
+
+<script>
+  // https://codepen.io/Rajesh-Pal-the-scripter/pen/gOZrbzK
+    document.addEventListener("DOMContentLoaded", () => {  
+  var emailOtpInputs = document.querySelectorAll(".email-otp-input");
+  function setupOtpInputListeners(inputs) {
+    inputs.forEach(function (input, index) {
+      input.addEventListener("paste", function (evt) {
+
+        enableNextBox(inputs[0], 0);
+        inputs[5].removeAttribute("disabled");
+        inputs[5].focus();
+      });
+
+      input.addEventListener("input", function () {
+        var currentIndex = Array.from(inputs).indexOf(this);
+        var inputValue = this.value.trim();
+
+        if (inputValue && currentIndex < 5) {
+          inputs[currentIndex + 1].removeAttribute("disabled");
+          inputs[currentIndex + 1].focus();
+        }
+
+        if (currentIndex === 4 && inputValue) {
+          inputs[5].removeAttribute("disabled");
+          inputs[5].focus();
+        }
+      });
+
+      input.addEventListener("keydown", function (evt) {
+        var currentIndex = Array.from(inputs).indexOf(this);
+
+        if (!this.value && evt.key === "Backspace" && currentIndex > 0) {
+          inputs[currentIndex - 1].focus();
+        }
+      });
+    });
+  }
+
+  // Setup listeners for OTP inputs
+  setupOtpInputListeners(emailOtpInputs);
+  // Add event listener for verify button
+  document.getElementById("verifyEmailOTP").addEventListener("click", function (evt) {
+    // Get all OTP input values
+    let otpInputs = document.querySelectorAll(".email-otp-input");
+    let otpValue = Array.from(otpInputs).map(input => input.value).join('');
+    // Optionally, set the hidden input field value before form submission
+    document.querySelector(".otp-code-holder").value = otpValue;
+  });
+
+
+      });
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>    
+    <link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+
+
+    <%- include('./layout/header')%>
+    <% const user = 'ttsang2811@gmail.com'; %>
+<main class="main-content">
+  <!-- ===== Div 1: Money Exchange Form ===== -->
+  <section class="exchange-form">
+    <h2>Send Money</h2>
+    <form id="moneyExchangeForm">
+      <p class="rate-info">Current exchange rate: <strong>1 CAD = 18,500 VND</strong></p>
+
+      <div class="form-group">
+        <label for="amountFrom">Amount to Send (CAD):</label>
+        <input type="number" id="amountFrom" name="amountFrom" placeholder="Enter amount" required>
+      </div>
+
+      <div class="form-group">
+        <label for="amountTo">Amount to Receive (VND):</label>
+        <input type="number" id="amountTo" name="amountTo" placeholder="Auto-calculated" readonly>
+      </div>
+
+      <button type="submit">Calculate & Continue</button>
+    </form>
+  </section>
+
+  <!-- ===== Div 2: Transfer Details Form ===== -->
+  <section class="transfer-details">
+    <h2>Transfer Information</h2>
+    <form id="transferInfoForm">
+      <div class="form-group">
+        <label>User Email:</label>
+        <input type="email" value="<%= user?.email || 'user@example.com' %>" disabled>
+      </div>
+
+      <div class="form-group">
+        <label>Sender Phone Number:</label>
+        <input type="tel" name="senderPhone" required>
+      </div>
+
+      <div class="form-group">
+        <label>Receiver Phone Number:</label>
+        <input type="tel" name="receiverPhone" required>
+      </div>
+
+      <div class="form-group">
+        <label>Sender Bank:</label>
+        <select name="senderBank" required>
+          <option value="">Select a bank</option>
+          <option value="rbc">RBC</option>
+          <option value="td">TD</option>
+          <option value="bmo">BMO</option>
+          <option value="scotiabank">Scotiabank</option>
+        </select>
+        <input type="text" name="senderBankAccount" placeholder="Account Number" required>
+      </div>
+
+      <div class="form-group">
+        <label>Transfer Method:</label>
+        <select name="transferMethod" required>
+          <option value="e-transfer">E-Transfer</option>
+          <option value="wire">Wire Transfer</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Receiver Bank:</label>
+        <select name="receiverBank" required>
+          <option value="">Select a bank</option>
+          <option value="vietcombank">Vietcombank</option>
+          <option value="agribank">Agribank</option>
+          <option value="techcombank">Techcombank</option>
+        </select>
+        <input type="text" name="receiverBankAccount" placeholder="Account Number" required>
+      </div>
+
+      <button type="submit">Confirm Transfer</button>
+    </form>
+  </section>
+</main>
+
+
+    <%- include('./layout/footer')%>
+<script src="/js/main.js" defer></script>
+<script type="text/javascript">
+    // Scroll Reveal Animation
+    const scrollReveal = () => {
+        const elements = document.querySelectorAll('.scroll-reveal');
+        elements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < window.innerHeight - elementVisible) {
+                element.classList.add('active');
+            }
+        });
+    }
+
+    // Initialize scroll reveal on load
+    window.addEventListener('load', () => {
+        document.querySelectorAll('.product, .service, .outcome div')
+                .forEach(el => el.classList.add('scroll-reveal'));
+        scrollReveal();
+    });
+
+    // Add scroll event listener
+    window.addEventListener('scroll', scrollReveal);
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Button hover effects
+    document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('mouseover', () => {
+            button.style.transform = 'scale(1.05)';
+        });
+        
+        button.addEventListener('mouseout', () => {
+            button.style.transform = 'scale(1)';
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

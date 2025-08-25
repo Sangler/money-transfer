@@ -1,0 +1,27 @@
+{
+  "name": "sendmoneywebsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Sang Tan Truong",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.1.0",
+    "cron": "^4.3.1",
+    "ejs-mate": "^4.0.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.16.0",
+    "nodemailer": "^7.0.3",
+    "nodemon": "^3.1.10",
+    "path": "^0.12.7",
+    "puppeteer": "^24.10.1",
+    "sha256": "^0.2.0",
+    "socket.io": "^4.8.1"
+  }
+}
