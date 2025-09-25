@@ -5,9 +5,9 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  transition: all 0.3s ease;
-  /*solid background*/
-  background-color: transparent;
+  /* smooth transitions for background, shadow, border and transform */
+  transition: background-color 320ms ease, height 220ms ease, box-shadow 320ms ease, transform 220ms ease, border-bottom-color 320ms ease;
+  background-color: transparent; /* transparent over hero */
 }
 /* Solid background after scrolling */
 /*header.scrolled {
@@ -16,65 +16,115 @@ header {
 }
 */
 /* Transparent blur background */
+:root{
+  --header-link-over-hero: #ffffff;
+  --header-link-scrolled: #243b55;
+}
+
 header.scrolled {
-  background-color: rgba(30, 30, 30, 0.6);
+  background-color: rgba(255,255,255,0.95); /* light background after scroll */
+  box-shadow: 0 6px 20px rgba(36,59,85,0.06);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* If header is over the hero (mainpage) remove the subtle blur and bottom line
+   so the hero area keeps its clean look. This preserves the scrolled bg but
+   removes the '6px' blur effect and the 1px bottom border on the main page. */
+header.over-hero.scrolled {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  /* keep the light background and shadow but remove the blur/border */
 }
 
 /* Shrink effect */
 header {
-  height: 80px;
-  line-height: 80px;
+  height: 88px;
+  line-height: 88px;
 }
 header.shrink {
-  height: 60px;
-  line-height: 60px;
+  height: 62px;
+  line-height: 62px;
+  transform: translateY(-2px);
 }
 .logo {
-  transition: font-size 0.3s ease;
+  transition: font-size 220ms ease, transform 220ms ease;
+  font-size: 1.4rem;
 }
 header.shrink .logo {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  transform: translateY(-2px);
 }
 /* * *  * *  * *  * *  * * */
 .navbar {
-  background-color: #333;
+  background: transparent; /* let header background show */
   color: #fff;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end; /* links align to right; logo will be absolute-centered */
   padding: 0.5rem 1rem;
+  position: relative;
 }
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
+
+.site-logo{height:44px;width:auto;display:inline-block;vertical-align:middle;transition:height 220ms ease}
+header.shrink .site-logo{height:32px}
+.site-name{font-weight:700}
+
 .nav-links {
   list-style: none;
   display: flex;
   margin: 0;
   padding: 0;
+  margin-left: auto; /* push to the right */
+  align-items: center;
 }
 .nav-links li {
   margin-left: 1rem;
 }
 .nav-links a {
-  color: #fff;
+  color: inherit;
   text-decoration: none;
-  padding: 0.5rem;
-  transition: background 0.3s;
+  padding: 0.5rem 0.6rem;
+  /* animate color and background for a smooth change */
+  transition: color 260ms ease, background 260ms ease;
 }
 .nav-links a:hover {
-  background: #444;
+  background: rgba(255,255,255,0.06);
+  border-radius:6px;
 }
+
+/* Default: use darker link color (ensures visibility on short pages) */
+.nav-links a { color: var(--header-link-scrolled); }
+.nav-toggle { color: var(--header-link-scrolled); }
+
+/* When header overlays the hero on the main page, show light links for contrast */
+body.home header.over-hero .nav-links a { color: var(--header-link-over-hero); }
+body.home header.over-hero .nav-toggle { color: var(--header-link-over-hero); }
 
 /* Hamburger icon (hidden by default) */
 .nav-toggle {
   display: none;
   cursor: pointer;
   font-size: 1.5rem;
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1050;
+  transition: color 260ms ease, opacity 260ms ease;
 }
 
 
@@ -181,4 +231,41 @@ footer {
     padding: 0.4rem 0.6rem;
   }
 
+}
+
+/* Tweak for medium-small screens to avoid logo overlap with nav links */
+@media (max-width: 840px) {
+  /* Stack the header content so logo sits above nav links and won't overlap */
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Make the centered logo no longer absolute to avoid overlay */
+  .logo {
+    position: static;
+    left: auto;
+    top: auto;
+    transform: none;
+    margin: 6px 0;
+    font-size: 1.1rem;
+  }
+
+  /* Reduce logo image size slightly */
+  .site-logo { height: 34px; }
+
+  /* Ensure nav links flow and center beneath the logo */
+  .nav-links {
+    margin-left: 0;
+    margin-top: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .nav-links li { margin-left: 0.5rem; }
+
+  /* Show the hamburger menu as an option on narrower viewports */
+  .nav-toggle { display: block; color: var(--header-link-scrolled); }
 }

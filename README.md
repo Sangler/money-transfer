@@ -63,9 +63,27 @@ utils/
    Ensure MongoDB is running locally at `mongodb://127.0.0.1:27017/LuuTruTT`.
 
 3. **Environment Variables**
-   Edit [`utils/process-env.js`](utils/process-env.js) for email credentials and session secret.
+  Create a `.env` file in the project root (or update `utils/.env`) and set the following values:
 
-4. **Run the server**
+  - `SESSION_SECRET` — a long random string for session signing
+  - `EMAIL_USER` and `EMAIL_PASS` — SMTP credentials used by Nodemailer
+
+  Example `.env`:
+
+  ```env
+  SESSION_SECRET=replace-with-a-secure-secret
+  EMAIL_USER=you@example.com
+  EMAIL_PASS=supersecretpassword
+  ```
+
+4. **Install new dependencies & run the server**
+
+  After pulling changes that add internationalization, install dependencies:
+  ```sh
+  npm install
+  ```
+
+  Then run the server:
    ```sh
    node app.js
    ```

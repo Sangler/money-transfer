@@ -1,62 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Link STYLE CSS -->
-    <link rel="stylesheet" href="./css/index.css" type="text/css">
-    <title>PROJECT 1</title>
-    </head>
-    <link rel="icon" type="image/x-icon" href="/imgs/favicon_io/favicon.ico">
-    <link rel="stylesheet" href="/css/darkmode.css">
-
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up</title>
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/auth.css">
+</head>
 <body>
 
-<%- include('../layout/header')%>
-<!-- Body start here  -->
-    
-    <form class="authenticate-form" action="/register" method="post" style="height: 600px;">
-        <h1 class="">Register</h1>
-        
-        <input name="email" type="text" placeholder="abc@gmail.com" required/>
-        <input name="username" type="text" placeholder="New User Name"/>
-        <input name="password" type="password" placeholder="New Password"/>
-        <input name="userpwd" type="password" placeholder="Re-enter password"/>
-        <input class="sub" type="submit" value="Sign Up"/>
-        <!-- 
-        <a href='/login/google'><input class="google" type="button" value="Google+"></a> 
-        <a href='/login/facebook'><input class="facebook" type="button" value="Facebook"></a>
-        -->
-        <li><a href="#"><p>Need help with password?</p></a></li>
-        <li><a href="/login"><p>Already Have An Account</p></a></li>
+    <%- include('../layout/header')%>
 
-    </form>
+    <main class="main-content">
+        <section class="card auth-card" style="max-width:560px;margin:40px auto;padding:24px;">
+            <h2><%= t ? t('auth.signUp') : 'Sign Up' %></h2>
+            <p class="subtle"><%= t ? t('auth.createAccountHelp') : 'Create an account to start sending money' %></p>
+            <form class="authenticate-form" action="/register" method="post">
+                <div class="form-row">
+                    <label for="username">Full name</label>
+                    <input id="username" name="username" type="text" placeholder="<%= t ? t('placeholders.username') : 'John Doe' %>" required>
+                </div>
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" placeholder="<%= t ? t('placeholders.emailExample') : 'abc@gmail.com' %>" required>
+                </div>
+                <div class="form-row">
+                    <label for="pwd">Password</label>
+                    <div style="display:flex;gap:8px;align-items:center">
+                        <input id="pwd" name="password" type="password" placeholder="<%= t ? t('placeholders.password') : 'Your password' %>" required style="flex:1">
+                        <button type="button" class="toggle-password" data-target="#pwd">Show</button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="phone">Phone (optional)</label>
+                    <input id="phone" name="phone" type="text" placeholder="<%= t ? t('placeholders.phone') : '+84 9xx xxx xxx' %>">
+                </div>
+                <div class="btn-row">
+                    <button type="submit" class="btn"><%= t ? t('auth.signUp') : 'Sign Up' %></button>
+                    <a class="small-link" href="/login"><%= t ? t('auth.login') : 'Log in' %></a>
+                </div>
+            </form>
+        </section>
+    </main>
 
     <%- include('../layout/footer')%>
 
-
-    
-<!-- javascript -->
-<script src="./js/event.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-    
-        //check passworđ before submit!
-        document.querySelector('.authenticate-form').addEventListener('submit', function(event) {
-            const password = document.getElementById('pass').value;
-            const confirmPassword = document.getElementById('re-pass').value;
-            if (password !== confirmPassword){
-                event.preventDefault();
-            };
-        });
-
-    });
-</script>
+    <script src="/js/auth.js" defer></script>
+    <script src="/js/main.js" defer></script>
 
 </body>
-<footer>
-
-</footer>
-
 </html>
 

@@ -1,96 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/otp.css" type="text/css">
-    <link rel="stylesheet" href="../css/index.css" type="text/css">
-    <link rel="icon" type="image/x-icon" href="/imgs/favicon_io/favicon.ico">
-    <link rel="stylesheet" href="/css/darkmode.css">
-
-    <title>Email OTP Verifying Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Email</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/auth.css">
 </head>
 <body>
-  <%- include('../layout/header')%>
-  <h2>Email OTP</h2>
-    <div class="email-otp-container">
-        <!-- Six input fields for OTP digits -->
-        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1">
-        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
-        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
-        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
-        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
-        <input type="text" class="email-otp-input"  pattern="[0-9]" maxlength="1" disabled>
-    </div>
 
-  <form action="/register/otp" method="post">
-    <div class="btn-container">
-      <input type="text" class="otp-code-holder" name="otp">
-      <!-- Verify OTP Button -->
-      <button type="submit" name="action" value="verify" id="verifyEmailOTP">VERIFY EMAIL</button>
-      <!-- Resend OTP Button -->
-      <button type="submit" name="action" value="resend">Resend</button>
-    </div>
-  </form>
-  <br>
+  <%- include('../layout/header')%>
+
+  <main class="main-content">
+    <section class="card auth-card" style="max-width:560px;margin:40px auto;padding:24px;text-align:center;">
+      <h2><%= t ? t('auth.verifyEmail') : 'Verify your email' %></h2>
+      <p class="subtle"><%= t ? t('auth.enterOtp') : 'Enter the 6-digit code we sent to your email' %></p>
+
+      <form action="/register/otp" method="post" id="otpForm">
+        <div class="email-otp-container" style="display:flex;gap:8px;justify-content:center;margin:18px 0;">
+          <input type="text" class="email-otp-input" pattern="[0-9]" maxlength="1" inputmode="numeric" />
+          <input type="text" class="email-otp-input" pattern="[0-9]" maxlength="1" inputmode="numeric" disabled />
+          <input type="text" class="email-otp-input" pattern="[0-9]" maxlength="1" inputmode="numeric" disabled />
+          <input type="text" class="email-otp-input" pattern="[0-9]" maxlength="1" inputmode="numeric" disabled />
+          <input type="text" class="email-otp-input" pattern="[0-9]" maxlength="1" inputmode="numeric" disabled />
+          <input type="text" class="email-otp-input" pattern="[0-9]" maxlength="1" inputmode="numeric" disabled />
+        </div>
+
+        <input type="hidden" class="otp-code-holder" name="otp">
+        <div class="btn-row" style="justify-content:center;">
+          <button type="submit" name="action" value="verify" id="verifyEmailOTP" class="btn"><%= t ? t('auth.verify') : 'Verify' %></button>
+          <button type="submit" name="action" value="resend" class="btn ghost"> <%= t ? t('auth.resend') : 'Resend' %> </button>
+        </div>
+      </form>
+    </section>
+  </main>
+
   <%- include('../layout/footer')%>
 
-  <script src="/js/index.js" ></script>
-  <script src="./js/event.js"></script>
+  <script src="/js/auth.js" defer></script>
+  <script src="/js/main.js" defer></script>
 
-<script>
-  // https://codepen.io/Rajesh-Pal-the-scripter/pen/gOZrbzK
-    document.addEventListener("DOMContentLoaded", () => {  
-  var emailOtpInputs = document.querySelectorAll(".email-otp-input");
-  function setupOtpInputListeners(inputs) {
-    inputs.forEach(function (input, index) {
-      input.addEventListener("paste", function (evt) {
-
-        enableNextBox(inputs[0], 0);
-        inputs[5].removeAttribute("disabled");
-        inputs[5].focus();
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const inputs = Array.from(document.querySelectorAll('.email-otp-input'));
+      function focusNext(i){ if (i+1<inputs.length) inputs[i+1].removeAttribute('disabled'), inputs[i+1].focus(); }
+      inputs.forEach((input, idx)=>{
+        input.addEventListener('input', ()=>{ if (input.value) focusNext(idx); });
+        input.addEventListener('keydown', (e)=>{ if(e.key==='Backspace' && !input.value && idx>0) inputs[idx-1].focus(); });
+        input.addEventListener('paste', (e)=>{ e.preventDefault(); const txt = (e.clipboardData||window.clipboardData).getData('text').trim(); txt.split('').slice(0,6).forEach((ch,i)=>{ if(inputs[i]){ inputs[i].value = ch; inputs[i].removeAttribute('disabled'); } }); if(inputs[5]) inputs[5].focus(); });
       });
 
-      input.addEventListener("input", function () {
-        var currentIndex = Array.from(inputs).indexOf(this);
-        var inputValue = this.value.trim();
-
-        if (inputValue && currentIndex < 5) {
-          inputs[currentIndex + 1].removeAttribute("disabled");
-          inputs[currentIndex + 1].focus();
-        }
-
-        if (currentIndex === 4 && inputValue) {
-          inputs[5].removeAttribute("disabled");
-          inputs[5].focus();
-        }
-      });
-
-      input.addEventListener("keydown", function (evt) {
-        var currentIndex = Array.from(inputs).indexOf(this);
-
-        if (!this.value && evt.key === "Backspace" && currentIndex > 0) {
-          inputs[currentIndex - 1].focus();
-        }
+      document.getElementById('verifyEmailOTP').addEventListener('click', ()=>{
+        const code = inputs.map(i=>i.value||'').join('');
+        document.querySelector('.otp-code-holder').value = code;
       });
     });
-  }
-
-  // Setup listeners for OTP inputs
-  setupOtpInputListeners(emailOtpInputs);
-  // Add event listener for verify button
-  document.getElementById("verifyEmailOTP").addEventListener("click", function (evt) {
-    // Get all OTP input values
-    let otpInputs = document.querySelectorAll(".email-otp-input");
-    let otpValue = Array.from(otpInputs).map(input => input.value).join('');
-    // Optionally, set the hidden input field value before form submission
-    document.querySelector(".otp-code-holder").value = otpValue;
-  });
-
-
-      });
-</script>
+  </script>
 
 </body>
-
 </html>

@@ -1,0 +1,71 @@
+{
+  "header": {
+    "main": "Mainpage",
+    "about": "About Us",
+    "login": "Login",
+    "logout": "Logout",
+    "language_en": "EN",
+    "language_vi": "VI"
+  },
+  "hero": {
+    "title": "Fast, Secure, Friendly Transfers",
+    "lead": "Send money from Canada to Vietnam with transparent rates and fast delivery.",
+    "getStarted": "Get Started",
+    "howItWorks": "How it works"
+  },
+  "form": {
+    "sendMoney": "Send Money",
+    "amountLabel": "Amount to Send (CAD):",
+    "receiveLabel": "Amount to Receive (VND):",
+    "calculate": "Calculate & Continue",
+    "transferInfo": "Transfer Information",
+    "confirm": "Confirm Transfer"
+  },
+  "placeholders": {
+    "enterAmount": "Enter amount",
+    "autoCalculated": "Auto-calculated",
+    "accountNumber": "Account Number",
+    "emailExample": "abc@gmail.com",
+    "password": "Your password",
+    "username": "New User Name",
+    "reenterPassword": "Re-enter password"
+  },
+  "labels": {
+    "userEmail": "User Email:",
+    "senderPhone": "Sender Phone Number:",
+    "receiverPhone": "Receiver Phone Number:",
+    "senderBank": "Sender Bank:",
+    "accountNumber": "Account #",
+    "transferMethod": "Transfer Method:",
+    "receiverBank": "Receiver Bank:"
+  },
+  "misc": {
+    "currentRate": "Current exchange rate: <strong>1 CAD = 18,500 VND</strong>",
+    "lowFeesDesc": "Competitive rates and transparent fees. No hidden charges.",
+    "fastDesc": "Most transfers delivered within 24–48 hours.",
+    "secureDesc": "Encrypted transfers and verified partners.",
+    "needHelp": "Need help with password?",
+    "alreadyHaveAccount": "Already Have An Account"
+  },
+  "features": {
+    "title": "Why choose us",
+    "lowFees": "Low Fees",
+    "fast": "Fast Delivery",
+    "secure": "Secure",
+    "lowFeesDesc": "Competitive rates and transparent fees. No hidden charges.",
+    "fastDesc": "Most transfers delivered within 24–48 hours.",
+    "secureDesc": "Encrypted transfers and verified partners."
+  },
+  "testimonials": {
+    "title": "What customers say",
+    "one": "Great service — fast and easy!",
+    "two": "Transparent fees and quick confirmation.",
+    "three": "No fee with good exchange rate better than Remitly!"
+  }
+  ,
+  "auth": {
+    "login": "Log In",
+    "register": "Register",
+    "signUp": "Sign Up"
+  }
+}

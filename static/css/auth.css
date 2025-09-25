@@ -1,0 +1,72 @@
+/* Auth page styles: centered card, clean inputs, responsive */
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --accent:#0066cc;
+  --muted:#6b7280;
+  --radius:12px;
+}
+body.auth-page{
+  background: linear-gradient(180deg,#eef2ff 0%, #f6f8fb 60%);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+.auth-container{
+  width:100%;
+  max-width:980px;
+  margin: 40px auto;
+  padding:24px;
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:24px;
+  align-items:center;
+}
+.auth-hero{
+  padding:28px;
+}
+.auth-hero h2{
+  font-size:28px;
+  margin:0 0 8px;
+  color:#0f172a;
+}
+.auth-hero p{color:var(--muted);line-height:1.5}
+
+.auth-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:28px;
+  box-shadow:0 8px 20px rgba(15,23,42,0.06);
+}
+.auth-card h1{margin:0 0 12px;font-size:22px;color:#0f172a}
+.auth-card .subtle{color:var(--muted);font-size:14px;margin-bottom:12px}
+.form-row{margin-bottom:12px}
+.form-row label{display:block;font-size:13px;color:#374151;margin-bottom:6px}
+.form-row input[type="text"],
+.form-row input[type="email"],
+.form-row input[type="password"],
+.form-row input[type="tel"],
+.form-row input[type="number"],
+.form-row select{
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid #e6e9ef;
+  background:#fff;
+  outline:none;
+  transition:box-shadow .12s, border-color .12s, transform .08s;
+}
+.form-row input:focus, .form-row select:focus{border-color:var(--accent);box-shadow:0 4px 14px rgba(3,102,214,0.08);}
+.btn-row{display:flex;gap:8px;align-items:center;margin-top:14px}
+.btn{display:inline-block;padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(3,102,214,0.12)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(3,102,214,0.12);box-shadow:none}
+.small-link{font-size:13px;color:var(--muted);text-decoration:none}
+.auth-footer{margin-top:12px;font-size:13px;color:var(--muted)}
+.toggle-password{cursor:pointer;color:var(--muted);font-size:13px}
+
+@media (max-width:900px){
+  .auth-container{grid-template-columns:1fr;padding:16px}
+  .auth-hero{order:2}
+}

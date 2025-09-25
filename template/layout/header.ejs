@@ -1,25 +1,32 @@
 <!-- header.ejs -->
-   <% 
-    const companyName='companyName';
-    const user ='User';
-   %>
 <header>
   <div class="navbar">
     <!-- Company logo/name (customizable) -->
-    <div class="logo"><%= companyName || 'MyExchange' %></div>
+    <div class="logo">
+      <% if (typeof companyLogo !== 'undefined' && companyLogo) { %>
+        <img src="<%= companyLogo %>" alt="<%= companyName || 'MyExchange' %> logo" class="site-logo">
+      <% } else { %>
+        <span class="site-name"><%= typeof companyName !== 'undefined' ? companyName : 'MyExchange' %></span>
+      <% } %>
+    </div>
 
     <!-- Hamburger menu icon (shown on small screens) -->
     <span class="nav-toggle">&#9776;</span>
 
     <!-- Navigation links -->
     <ul class="nav-links">
-      <li><a href="/">Mainpage</a></li>
-      <li><a href="/about">About Us</a></li>
+      <li><a href="/"><%= t ? t('header.main') : 'Mainpage' %></a></li>
+      <li><a href="/about"><%= t ? t('header.about') : 'About Us' %></a></li>
       <% if (user) { %>
         <li><a href="/logout">Logout</a></li>
       <% } else { %>
         <li><a href="/login">Login</a></li>
       <% } %>
+      <!-- Simple language switcher (will set lng via querystring, i18next will cache in cookie) -->
+      <li class="lang-switch">
+        <a href="?lng=en" hreflang="en"><%= t ? t('header.language_en') : 'EN' %></a>
+        <a href="?lng=vi" hreflang="vi"><%= t ? t('header.language_vi') : 'VI' %></a>
+      </li>
     </ul>
   </div>
 </header>

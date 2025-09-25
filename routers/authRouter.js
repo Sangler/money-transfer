@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const Sha256 = require("sha256");
+const argon2 = require('argon2');
+const crypto = require('crypto');
 
-const User = require('../models/emails.js');
+const User = require('../models/users.js');
 
 const catchAsync = require('../utils/catchAsync.js');
 const isValidEmail = require('../utils/emailRegister.js');
 
-const keys = require('../utils/process-env.js');
 const path = require('path');
 
 //Set up Nodemailer
@@ -19,8 +19,8 @@ async function SendVerifiedCode(otpcode, email) {
     port: 465,
     secure: true,
     auth: {
-      user: keys.email.user,
-      pass: keys.email.pass
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     },
     tls: {
       rejectUnauthorized: false
@@ -106,6 +106,16 @@ router.get('/register/otp',isValidEmail, async(req,res)=>{
 router.post('/register', catchAsync(async (req, res) => {
   const { email, password, username, userpwd } = req.body;
 
+  // Basic server-side validation
+  if (!email || !password) {
+    const data = { message: "Email and password are required." };
+    return res.render('./layout/error.ejs', { data });
+  }
+  if (password.length < 6) {
+    const data = { message: "Password must be at least 6 characters." };
+    return res.render('./layout/error.ejs', { data });
+  }
+
   // Check if the email is already registered
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -121,8 +131,8 @@ router.post('/register', catchAsync(async (req, res) => {
 
   // Generate a 6-digit OTP
   const otpCode = Math.floor(100000 + Math.random() * 900000);
-  // Hash the password
-  const hashedPassword = await Sha256(password);
+  // Hash the password with Argon2id
+  const hashedPassword = await argon2.hash(password, { type: argon2.argon2id });
 
   // Create a new user object
   const newUser = new User({
@@ -136,7 +146,15 @@ router.post('/register', catchAsync(async (req, res) => {
   // Send OTP email
   SendVerifiedCode(otpCode, email);
   // Save user to database
-  await newUser.save();
+  try {
+    // set passwordAlgo explicitly for clarity
+    newUser.passwordAlgo = 'argon2';
+    await newUser.save();
+  } catch (err) {
+    console.error('User save error:', err);
+    const data = { message: 'Failed to create user.' };
+    return res.render('./layout/error.ejs', { data });
+  }
   // Store email in session for OTP verification
   req.session.email = email;
   res.redirect('/register/otp');
@@ -197,7 +215,64 @@ router.post('/login',catchAsync(async (req,res)=>{
     return res.render('./layout/error.ejs', { data });
   }
 
-  if (Sha256(password) != IsUserEmail.password) {
+  // Verify password depending on stored algorithm
+  let verified = false;
+  try {
+    if (!IsUserEmail.passwordAlgo || IsUserEmail.passwordAlgo === 'bcrypt') {
+      // legacy bcrypt
+      // attempt to verify using bcrypt if available
+      try {
+        const bcrypt = require('bcryptjs');
+        verified = await bcrypt.compare(password, IsUserEmail.password);
+        if (verified) {
+          // migrate to argon2
+          const newHash = await argon2.hash(password, { type: argon2.argon2id });
+          IsUserEmail.password = newHash;
+          IsUserEmail.passwordAlgo = 'argon2';
+          await IsUserEmail.save();
+        }
+      } catch (e) {
+        // bcrypt not available — fall through
+        verified = false;
+      }
+    } else if (IsUserEmail.passwordAlgo === 'sha256' || IsUserEmail.passwordAlgo === 'pbkdf2-sha256') {
+      // legacy sha256 or pbkdf2 stored as hex: verify accordingly
+      if (IsUserEmail.passwordAlgo === 'sha256') {
+        const givenHash = crypto.createHash('sha256').update(password).digest('hex');
+        verified = givenHash === IsUserEmail.password;
+      } else if (IsUserEmail.passwordAlgo === 'pbkdf2-sha256') {
+        // stored as iterations:salt:hash (hex)
+        try {
+          const [iters, salt, stored] = IsUserEmail.password.split(':');
+          const derived = crypto.pbkdf2Sync(password, Buffer.from(salt, 'hex'), parseInt(iters, 10), 64, 'sha256').toString('hex');
+          verified = derived === stored;
+        } catch (e) {
+          verified = false;
+        }
+      }
+      if (verified) {
+        // migrate to argon2
+        const newHash = await argon2.hash(password, { type: argon2.argon2id });
+        IsUserEmail.password = newHash;
+        IsUserEmail.passwordAlgo = 'argon2';
+        await IsUserEmail.save();
+      }
+    } else if (IsUserEmail.passwordAlgo === 'argon2') {
+      verified = await argon2.verify(IsUserEmail.password, password);
+    } else {
+      // unknown algorithm — try argon2 verify as default attempt
+      try {
+        verified = await argon2.verify(IsUserEmail.password, password);
+      } catch (e) {
+        verified = false;
+      }
+    }
+  } catch (err) {
+    console.error('Password verification error:', err);
+    verified = false;
+  }
+
+  if (!verified) {
     const data = { message: "Your email or Password is incorrect!" };
     return res.render('./layout/error.ejs', { data });
   }

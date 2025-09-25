@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // models
-const User = require('../models/emails.js'); 
+const User = require('../models/users.js'); 
 
 const catchAsync = require('../utils/catchAsync.js');
 const isValidUser = require('../utils/middleware.js');

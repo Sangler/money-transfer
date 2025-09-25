@@ -1,3 +1,4 @@
+require('dotenv').config();
 const puppeteer = require('puppeteer');
 const CronJob = require('cron').CronJob;
 const nodemailer = require('nodemailer');

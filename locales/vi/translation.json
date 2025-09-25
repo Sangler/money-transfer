@@ -1,0 +1,70 @@
+{
+  "header": {
+    "main": "Trang chính",
+    "about": "Về chúng tôi",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "language_en": "EN",
+    "language_vi": "VI"
+  },
+  "hero": {
+    "title": "Gửi tiền nhanh, an toàn với tỉ giá tốt",
+    "lead": "Gửi tiền từ Canada về Việt Nam với tỉ giá minh bạch và nhanh gọn lẹ.",
+    "getStarted": "Bắt đầu",
+    "howItWorks": "Cách thức hoạt động"
+  },
+  "form": {
+    "sendMoney": "Gửi tiền",
+    "amountLabel": "Số tiền gửi (CAD):",
+    "receiveLabel": "Số tiền nhận (VND):",
+    "calculate": "Tính & Tiếp tục",
+    "transferInfo": "Thông tin chuyển tiền",
+    "confirm": "Xác nhận chuyển"
+  },
+  "placeholders": {
+    "enterAmount": "Nhập số tiền",
+    "autoCalculated": "Tự động tính",
+    "accountNumber": "Số tài khoản",
+    "emailExample": "abc@gmail.com",
+    "password": "Mật khẩu của bạn",
+    "username": "Tên người dùng mới",
+    "reenterPassword": "Nhập lại mật khẩu"
+  },
+  "labels": {
+    "userEmail": "Email người dùng:",
+    "senderPhone": "SĐT người gửi:",
+    "receiverPhone": "SĐT người nhận:",
+    "senderBank": "Ngân hàng người gửi:",
+    "accountNumber": "Số tài khoản",
+    "transferMethod": "Phương thức chuyển:",
+    "receiverBank": "Ngân hàng người nhận:"
+  },
+  "misc": {
+    "currentRate": "Tỷ giá hiện tại: <strong>1 CAD = 18,500 VND</strong>",
+    "lowFeesDesc": "Tỷ giá cạnh tranh và phí minh bạch. Không phí ẩn.",
+    "fastDesc": "Hầu hết giao dịch được xử lý trong 24–48 giờ hành chánh.",
+    "secureDesc": "Chuyển tiền mã hóa và đối tác được xác minh.",
+    "needHelp": "Cần trợ giúp với mật khẩu?",
+    "alreadyHaveAccount": "Đã có tài khoản"
+  },
+  "features": {
+    "title": "Tại sao chọn chúng tôi",
+    "lowFees": "Phí thấp",
+    "fast": "Giao nhanh",
+    "secure": "An toàn",
+    "lowFeesDesc": "Tỷ giá cạnh tranh và phí minh bạch. Không phí ẩn.",
+    "fastDesc": "Hầu hết chuyển tiền được giao trong 24–48 giờ.",
+    "secureDesc": "Chuyển tiền mã hóa và đối tác được xác minh."
+  },
+  "testimonials": {
+    "title": "Ý kiến của người dùng",
+    "one": "Dịch vụ tuyệt vời — nhanh và dễ dàng!",
+    "two": "Phí minh bạch và xác nhận nhanh chóng.",
+    "three": "Không tốn phí và tỷ giá chuyển tiền tốt hơn Remitly!"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "signUp": "Đăng ký"
+  }
+}
